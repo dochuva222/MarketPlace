@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MarketPlaceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MarketPlaceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DeliveryPoint" EntityType="MarketPlaceModel.DeliveryPoint" />
+    <EntitySet Name="DeliveryType" EntityType="MarketPlaceModel.DeliveryType" />
+    <EntitySet Name="Order" EntityType="MarketPlaceModel.Order" />
+    <EntitySet Name="OrderStatus" EntityType="MarketPlaceModel.OrderStatus" />
+    <EntitySet Name="Product" EntityType="MarketPlaceModel.Product" />
+    <EntitySet Name="ProductOrder" EntityType="MarketPlaceModel.ProductOrder" />
+    <EntitySet Name="ProductPhoto" EntityType="MarketPlaceModel.ProductPhoto" />
+    <EntitySet Name="ProductType" EntityType="MarketPlaceModel.ProductType" />
+    <EntitySet Name="Provider" EntityType="MarketPlaceModel.Provider" />
+    <EntitySet Name="Role" EntityType="MarketPlaceModel.Role" />
+    <EntitySet Name="sysdiagrams" EntityType="MarketPlaceModel.sysdiagrams" />
+    <EntitySet Name="User" EntityType="MarketPlaceModel.User" />
+    <AssociationSet Name="FK_Order_DeliveryPoint" Association="MarketPlaceModel.FK_Order_DeliveryPoint">
+      <End Role="DeliveryPoint" EntitySet="DeliveryPoint" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_DeliveryType" Association="MarketPlaceModel.FK_Order_DeliveryType">
+      <End Role="DeliveryType" EntitySet="DeliveryType" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_OrderStatus" Association="MarketPlaceModel.FK_Order_OrderStatus">
+      <End Role="OrderStatus" EntitySet="OrderStatus" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_User" Association="MarketPlaceModel.FK_Order_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductOrder_Order" Association="MarketPlaceModel.FK_ProductOrder_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="ProductOrder" EntitySet="ProductOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductType" Association="MarketPlaceModel.FK_Product_ProductType">
+      <End Role="ProductType" EntitySet="ProductType" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Provider" Association="MarketPlaceModel.FK_Product_Provider">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductOrder_Product" Association="MarketPlaceModel.FK_ProductOrder_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductOrder" EntitySet="ProductOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductPhoto_Product" Association="MarketPlaceModel.FK_ProductPhoto_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductPhoto" EntitySet="ProductPhoto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="MarketPlaceModel.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="DeliveryPoint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order" Relationship="MarketPlaceModel.FK_Order_DeliveryPoint" FromRole="DeliveryPoint" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="DeliveryType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order" Relationship="MarketPlaceModel.FK_Order_DeliveryType" FromRole="DeliveryType" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="OrderStatusId" Type="Int32" Nullable="false" />
+    <Property Name="DeliveryTypeId" Type="Int32" Nullable="false" />
+    <Property Name="DeliveryPointId" Type="Int32" />
+    <Property Name="AddressDelivery" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DeliveryPoint" Relationship="MarketPlaceModel.FK_Order_DeliveryPoint" FromRole="Order" ToRole="DeliveryPoint" />
+    <NavigationProperty Name="DeliveryType" Relationship="MarketPlaceModel.FK_Order_DeliveryType" FromRole="Order" ToRole="DeliveryType" />
+    <NavigationProperty Name="OrderStatus" Relationship="MarketPlaceModel.FK_Order_OrderStatus" FromRole="Order" ToRole="OrderStatus" />
+    <NavigationProperty Name="User" Relationship="MarketPlaceModel.FK_Order_User" FromRole="Order" ToRole="User" />
+    <NavigationProperty Name="ProductOrder" Relationship="MarketPlaceModel.FK_ProductOrder_Order" FromRole="Order" ToRole="ProductOrder" />
+  </EntityType>
+  <EntityType Name="OrderStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order" Relationship="MarketPlaceModel.FK_Order_OrderStatus" FromRole="OrderStatus" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="ProviderId" Type="Int32" Nullable="false" />
+    <Property Name="TypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProductType" Relationship="MarketPlaceModel.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
+    <NavigationProperty Name="Provider" Relationship="MarketPlaceModel.FK_Product_Provider" FromRole="Product" ToRole="Provider" />
+    <NavigationProperty Name="ProductOrder" Relationship="MarketPlaceModel.FK_ProductOrder_Product" FromRole="Product" ToRole="ProductOrder" />
+    <NavigationProperty Name="ProductPhoto" Relationship="MarketPlaceModel.FK_ProductPhoto_Product" FromRole="Product" ToRole="ProductPhoto" />
+  </EntityType>
+  <EntityType Name="ProductOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="NumberCell" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="MarketPlaceModel.FK_ProductOrder_Order" FromRole="ProductOrder" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="MarketPlaceModel.FK_ProductOrder_Product" FromRole="ProductOrder" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductPhoto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Photo" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Product" Relationship="MarketPlaceModel.FK_ProductPhoto_Product" FromRole="ProductPhoto" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Namae" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="MarketPlaceModel.FK_Product_ProductType" FromRole="ProductType" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="MarketPlaceModel.FK_Product_Provider" FromRole="Provider" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="MarketPlaceModel.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="MarketPlaceModel.FK_Order_User" FromRole="User" ToRole="Order" />
+    <NavigationProperty Name="Role" Relationship="MarketPlaceModel.FK_User_Role" FromRole="User" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_Order_DeliveryPoint">
+    <End Type="MarketPlaceModel.DeliveryPoint" Role="DeliveryPoint" Multiplicity="0..1" />
+    <End Type="MarketPlaceModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeliveryPoint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="DeliveryPointId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_DeliveryType">
+    <End Type="MarketPlaceModel.DeliveryType" Role="DeliveryType" Multiplicity="1" />
+    <End Type="MarketPlaceModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeliveryType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="DeliveryTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_OrderStatus">
+    <End Type="MarketPlaceModel.OrderStatus" Role="OrderStatus" Multiplicity="1" />
+    <End Type="MarketPlaceModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="OrderStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_User">
+    <End Type="MarketPlaceModel.User" Role="User" Multiplicity="1" />
+    <End Type="MarketPlaceModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductOrder_Order">
+    <End Type="MarketPlaceModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="MarketPlaceModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductOrder">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductType">
+    <End Type="MarketPlaceModel.ProductType" Role="ProductType" Multiplicity="1" />
+    <End Type="MarketPlaceModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Provider">
+    <End Type="MarketPlaceModel.Provider" Role="Provider" Multiplicity="1" />
+    <End Type="MarketPlaceModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductOrder_Product">
+    <End Type="MarketPlaceModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="MarketPlaceModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductOrder">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductPhoto_Product">
+    <End Type="MarketPlaceModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="MarketPlaceModel.ProductPhoto" Role="ProductPhoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductPhoto">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Type="MarketPlaceModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="MarketPlaceModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

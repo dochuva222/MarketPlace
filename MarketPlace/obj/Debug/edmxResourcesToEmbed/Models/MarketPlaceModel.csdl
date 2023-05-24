@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChitChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ChatMessage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SenderId" Type="Int32" Nullable="false" />
+    <Property Name="ChatroomId" Type="Int32" Nullable="false" />
+    <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ChatRoom" Relationship="Self.FK_ChatMessage_ChatRoom" FromRole="ChatMessage" ToRole="ChatRoom" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_ChatMessage_Employee" FromRole="ChatMessage" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="ChatRoom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Topic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ChatMessage" Relationship="Self.FK_ChatMessage_ChatRoom" FromRole="ChatRoom" ToRole="ChatMessage" />
+    <NavigationProperty Name="ChatRoomEmployee" Relationship="Self.FK_ChatRoomEmployee_ChatRoom" FromRole="ChatRoom" ToRole="ChatRoomEmployee" />
+  </EntityType>
+  <EntityType Name="ChatRoomEmployee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChatRoomId" Type="Int32" Nullable="false" />
+    <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ChatRoom" Relationship="Self.FK_ChatRoomEmployee_ChatRoom" FromRole="ChatRoomEmployee" ToRole="ChatRoom" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_ChatRoomEmployee_Employee" FromRole="ChatRoomEmployee" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="ChatMessage" Relationship="Self.FK_ChatMessage_Employee" FromRole="Employee" ToRole="ChatMessage" />
+    <NavigationProperty Name="ChatRoomEmployee" Relationship="Self.FK_ChatRoomEmployee_Employee" FromRole="Employee" ToRole="ChatRoomEmployee" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+  </EntityType>
+  <Association Name="FK_ChatMessage_ChatRoom">
+    <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+    <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChatRoom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessage">
+        <PropertyRef Name="ChatroomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatMessage_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessage">
+        <PropertyRef Name="SenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatRoomEmployee_ChatRoom">
+    <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+    <End Role="ChatRoomEmployee" Type="Self.ChatRoomEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChatRoom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatRoomEmployee">
+        <PropertyRef Name="ChatRoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatRoomEmployee_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="ChatRoomEmployee" Type="Self.ChatRoomEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatRoomEmployee">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ChitChatEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ChatMessage" EntityType="Self.ChatMessage" />
+    <EntitySet Name="ChatRoom" EntityType="Self.ChatRoom" />
+    <EntitySet Name="ChatRoomEmployee" EntityType="Self.ChatRoomEmployee" />
+    <EntitySet Name="Department" EntityType="Self.Department" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" />
+    <AssociationSet Name="FK_ChatMessage_ChatRoom" Association="Self.FK_ChatMessage_ChatRoom">
+      <End Role="ChatRoom" EntitySet="ChatRoom" />
+      <End Role="ChatMessage" EntitySet="ChatMessage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatMessage_Employee" Association="Self.FK_ChatMessage_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="ChatMessage" EntitySet="ChatMessage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatRoomEmployee_ChatRoom" Association="Self.FK_ChatRoomEmployee_ChatRoom">
+      <End Role="ChatRoom" EntitySet="ChatRoom" />
+      <End Role="ChatRoomEmployee" EntitySet="ChatRoomEmployee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatRoomEmployee_Employee" Association="Self.FK_ChatRoomEmployee_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="ChatRoomEmployee" EntitySet="ChatRoomEmployee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

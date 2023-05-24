@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="380e06f5d9c2419bbd42546ec550f11f" Name="Diagram1" ZoomLevel="139">
+        <EntityTypeShape EntityType="MarketPlaceModel.DeliveryPoint" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="MarketPlaceModel.DeliveryType" Width="1.5" PointX="3" PointY="9.75" />
+        <EntityTypeShape EntityType="MarketPlaceModel.Order" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="MarketPlaceModel.OrderStatus" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="MarketPlaceModel.Product" Width="1.5" PointX="5.25" PointY="13" />
+        <EntityTypeShape EntityType="MarketPlaceModel.ProductOrder" Width="1.5" PointX="7.5" PointY="1.5" />
+        <EntityTypeShape EntityType="MarketPlaceModel.ProductPhoto" Width="1.5" PointX="7.5" PointY="13.625" />
+        <EntityTypeShape EntityType="MarketPlaceModel.ProductType" Width="1.5" PointX="3" PointY="12.5" />
+        <EntityTypeShape EntityType="MarketPlaceModel.Provider" Width="1.5" PointX="3" PointY="14.875" />
+        <EntityTypeShape EntityType="MarketPlaceModel.Role" Width="1.5" PointX="0.75" PointY="1.875" />
+        <EntityTypeShape EntityType="MarketPlaceModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MarketPlaceModel.User" Width="1.5" PointX="3" PointY="1.125" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Order_DeliveryPoint" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Order_DeliveryType" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Order_OrderStatus" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Order_User" />
+        <AssociationConnector Association="MarketPlaceModel.FK_ProductOrder_Order" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Product_ProductType" />
+        <AssociationConnector Association="MarketPlaceModel.FK_Product_Provider" />
+        <AssociationConnector Association="MarketPlaceModel.FK_ProductOrder_Product" />
+        <AssociationConnector Association="MarketPlaceModel.FK_ProductPhoto_Product" />
+        <AssociationConnector Association="MarketPlaceModel.FK_User_Role" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
